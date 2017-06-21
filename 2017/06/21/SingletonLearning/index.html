@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Eleven.Yi&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="模式学习之一  — 单例模式####导语：  从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧  ##一、单例模式介绍单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。 ##二、单例模式的定义确保某一个类只有一个实例，而且">
+  <meta name="description" content="模式学习之一  — 单例模式导语： 从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧  一、单例模式介绍单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。 二、单例模式的定义确保某一个类只有一个实例，而且自行实例化并向整">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Eleven.Yi&#39;s Blog">
 <meta property="og:url" content="http://yoursite.com/2017/06/21/SingletonLearning/index.html">
 <meta property="og:site_name" content="Eleven.Yi&#39;s Blog">
-<meta property="og:description" content="模式学习之一  — 单例模式####导语：  从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧  ##一、单例模式介绍单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。 ##二、单例模式的定义确保某一个类只有一个实例，而且">
-<meta property="og:updated_time" content="2017-06-21T07:02:30.000Z">
+<meta property="og:description" content="模式学习之一  — 单例模式导语： 从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧  一、单例模式介绍单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。 二、单例模式的定义确保某一个类只有一个实例，而且自行实例化并向整">
+<meta property="og:updated_time" content="2017-06-21T07:11:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Eleven.Yi&#39;s Blog">
-<meta name="twitter:description" content="模式学习之一  — 单例模式####导语：  从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧  ##一、单例模式介绍单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。 ##二、单例模式的定义确保某一个类只有一个实例，而且">
+<meta name="twitter:description" content="模式学习之一  — 单例模式导语： 从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧  一、单例模式介绍单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。 二、单例模式的定义确保某一个类只有一个实例，而且自行实例化并向整">
   
     <link rel="alternative" href="/atom.xml" title="Eleven.Yi&#39;s Blog" type="application/atom+xml">
   
@@ -158,15 +158,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="模式学习之一-—-单例模式"><a href="#模式学习之一-—-单例模式" class="headerlink" title="模式学习之一  — 单例模式"></a>模式学习之一  — 单例模式</h1><p>####导语：</p>
-<blockquote>
+        <hr>
+<h2 id="模式学习之一-—-单例模式"><a href="#模式学习之一-—-单例模式" class="headerlink" title="模式学习之一  — 单例模式"></a>模式学习之一  — 单例模式</h2><h4 id="导语："><a href="#导语：" class="headerlink" title="导语："></a>导语：</h4><blockquote>
 <p>从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧</p>
 </blockquote>
-<p>##一、单例模式介绍<br>单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。</p>
-<p>##二、单例模式的定义<br>确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</p>
-<p>##三、单例模式的使用场景<br>确保某个类有且只有一个对象的场景，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个。比如：创建一个对象需要消耗过多的资源，访问IO和数据库等资源，这时就要考虑使用单例模式。</p>
-<p>##四、单例模式的实现方式</p>
-<ol>
+<h2 id="一、单例模式介绍"><a href="#一、单例模式介绍" class="headerlink" title="一、单例模式介绍"></a>一、单例模式介绍</h2><p>单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。</p>
+<h2 id="二、单例模式的定义"><a href="#二、单例模式的定义" class="headerlink" title="二、单例模式的定义"></a>二、单例模式的定义</h2><p>确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</p>
+<h2 id="三、单例模式的使用场景"><a href="#三、单例模式的使用场景" class="headerlink" title="三、单例模式的使用场景"></a>三、单例模式的使用场景</h2><p>确保某个类有且只有一个对象的场景，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个。比如：创建一个对象需要消耗过多的资源，访问IO和数据库等资源，这时就要考虑使用单例模式。</p>
+<h2 id="四、单例模式的实现方式"><a href="#四、单例模式的实现方式" class="headerlink" title="四、单例模式的实现方式"></a>四、单例模式的实现方式</h2><ol>
 <li>饿汉模式<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader&#123;</div><div class="line"></div><div class="line">    private static final ImageLoader mInstance = new ImageLoader;</div><div class="line"></div><div class="line">    private ImageLoder()&#123;&#125;</div><div class="line"></div><div class="line">    public static ImageLoader getInstance()&#123;</div><div class="line">        return mInstance;</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ol>
