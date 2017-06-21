@@ -154,6 +154,76 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SingletonLearning" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="模式学习之一-—-单例模式"><a href="#模式学习之一-—-单例模式" class="headerlink" title="模式学习之一  — 单例模式"></a>模式学习之一  — 单例模式</h1><p>####导语：</p>
+<blockquote>
+<p>从今天开始我将开始我的博客之旅，并且开始我的模式学习，本系列文章是根据《Android 源码设计模式解析与实战》这本书来写的，算是一系列的学习笔记吧</p>
+</blockquote>
+<p>##一、单例模式介绍<br>单例模式是应用最广的模式之一，在应用这个模式时，单例模式的类必须保证只有一个实例存在，比如我们经常使用的ImageLoader。</p>
+<p>##二、单例模式的定义<br>确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</p>
+<p>##三、单例模式的使用场景<br>确保某个类有且只有一个对象的场景，避免产生多个对象消耗过多的资源，或者某种类型的对象只应该有且只有一个。比如：创建一个对象需要消耗过多的资源，访问IO和数据库等资源，这时就要考虑使用单例模式。</p>
+<p>##四、单例模式的实现方式</p>
+<ol>
+<li>饿汉模式<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader&#123;</div><div class="line"></div><div class="line">    private static final ImageLoader mInstance = new ImageLoader;</div><div class="line"></div><div class="line">    private ImageLoder()&#123;&#125;</div><div class="line"></div><div class="line">    public static ImageLoader getInstance()&#123;</div><div class="line">        return mInstance;</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>缺点：线程不安全，都会去实例化，不管是否会去使用。造成了一定的资源浪费</p>
+<ol>
+<li>懒汉模式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader&#123;</div><div class="line"></div><div class="line">    private static ImageLoader mInstance;</div><div class="line"></div><div class="line">    private ImageLoder()&#123;&#125;</div><div class="line"></div><div class="line">    public static synchronized ImageLoader getInstance()&#123;</div><div class="line">        if(mInstance == null)&#123;</div><div class="line">          instance = new ImageLoader();</div><div class="line">        &#125;</div><div class="line">        return mInstance;</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>缺点：<br>  getInstance是个同步的方法，每次调用的时候都会去进行同步，这样会消耗很多的资源。</p>
+<ol>
+<li>DCL模式</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader&#123;</div><div class="line"></div><div class="line">    private static ImageLoader mInstance = null;</div><div class="line"></div><div class="line">    private ImageLoder()&#123;&#125;</div><div class="line"></div><div class="line">    public static synchronized ImageLoader getInstance()&#123;</div><div class="line">        if(mInstance == null)&#123;</div><div class="line">        synchronized(ImageLoader.class)&#123;</div><div class="line">          if(mInstance ==null)&#123;</div><div class="line">            mInstance = new ImageLoader();</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      return mInstance;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  Double Check Lock模式。<br>  DCL模式是使用最多的单例模式，它能够在需要时才实例化单例对象，并且能够在绝大多数场景下保证单例对象的唯一性，除非你的代码在并发场景比较复杂活低于JDK6版本下使用。</p>
+<ol>
+<li>静态内部类单例模式<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader&#123;</div><div class="line"></div><div class="line">    private ImageLoder()&#123;&#125;</div><div class="line"></div><div class="line">    public static ImageLoader getInstance()&#123;</div><div class="line">        return ImageLoderHolder.mInstance;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      //静态内部类</div><div class="line">      private static class ImageLoderHolder&#123;</div><div class="line">        private static final ImageLoder mInstance = new ImageLoder();</div><div class="line">      &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>第一次调用getInstance方法会使得虚拟机加载ImageLoderHolder类，这种方式不仅能保证确保线程安全，也能够保证单例对象的唯一性，同时也延迟了单例的实例化，所以这是推荐使用的单例模式实现方式。</p>
+<ol>
+<li>枚举实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public enum ImageLoderEnum&#123;</div><div class="line">  INSTANCE;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>枚举类型实例创建是线程安全的，并且在任何情况下它都是一个单例。</p>
+<ol>
+<li>容器类实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class SingletomManager&#123;</div><div class="line">  private static Map&lt;String, Object&gt; objMap = new HashMap&lt;String,Object&gt;();</div><div class="line"></div><div class="line">  private SingletomManager()&#123;&#125;</div><div class="line"></div><div class="line">  public static void registerService(String key, Object instance)&#123;</div><div class="line">    if(!objMap.containsKey(key))&#123;</div><div class="line">      objMap.put(key,instance);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  public static Object getService(String key)&#123;</div><div class="line">    retrun objMap.get(key);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>将多重单例类型注入到一个统一的管理类中，在使用时根据key获取对应类型的对象。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/21/SingletonLearning/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-myfirstpost" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
